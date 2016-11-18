@@ -20,9 +20,9 @@ def main():
                 # print(k, ss[k])
             value = 0
             if(ss["compound"] < 0):
-                value = -1
-            if(ss["compound"] > 0):
                 value = 1
+            if(ss["compound"] > 0):
+                value = 0
             table.add_row([row[0], value, ss["compound"], ss["neg"], row[2][:100]])
             #print("\n")
             counter += 1      
