@@ -9,6 +9,8 @@ def main():
         test = csv.reader(csvfile)
         sid = SIA()
         counter = 0
+        trueCount = 0
+        falseCount = 0
         for row in test:
             if(counter>100):
                 break
@@ -24,14 +26,14 @@ def main():
                 value = 1
             if(ss["compound"] > 0):
                 value = 0
-
-            if(value == row[0]):
-                match = "MATCH"
+            table.add_row([int(row[0]) == value, int(row[0]), value, ss["compound"], ss["neg"], row[2][:100]])
+            if(int(row[0]) == value):
+                trueCount += 1
             else:
-                match = "fail"
-            table.add_row([match, row[0], value, ss["compound"], ss["neg"], row[2][:100]])
+                falseCount += 1
             #print("\n")
             counter += 1      
+    table.add_row([trueCount, falseCount, "=====", "=====", "=====", "====="])
     print(table)
 
 main()
