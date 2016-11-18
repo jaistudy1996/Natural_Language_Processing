@@ -1,10 +1,10 @@
-import nltk, csv, prettytable
+import nltk, csv, prettytable, math
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 
 def main():
     #Open file
-    table = prettytable.PrettyTable(field_names=["FLAG_Original", "Compound", "Negative_value", "Sentence"])
+    table = prettytable.PrettyTable(field_names=["FLAG_Original", "Rounded Compund", "Compound", "Negative_value", "Sentence"])
     with open('train.csv', newline='') as csvfile:
         test = csv.reader(csvfile)
         sid = SIA()
@@ -18,7 +18,7 @@ def main():
             #for k in sorted(ss):
                 # print('{0}: {1}, '.format(k, ss[k]), end='')
                 # print(k, ss[k])
-            table.add_row([row[0], ss["compound"], ss["neg"], row[2][:100]])
+            table.add_row([row[0], math.floor(ss["compound"]), ss["compound"], ss["neg"], row[2][:100]])
             #print("\n")
             counter += 1      
     print(table)
