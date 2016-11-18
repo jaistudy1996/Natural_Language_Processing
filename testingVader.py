@@ -12,8 +12,8 @@ def main():
         trueCount = 0
         falseCount = 0
         for row in test:
-            if(counter>100):
-                break
+            # if(counter>100):
+            #     break
             comment = row[2]
             #print(row[2])
             ss = sid.polarity_scores(comment)
@@ -34,6 +34,7 @@ def main():
             #print("\n")
             counter += 1      
     table.add_row([trueCount, falseCount, "=====", "=====", "=====", "====="])
+    table.add_row(["Total Accuracy: ", (trueCount/(trueCount+falseCount))*100, "=====", "=====", "=====", "====="])
     print(table)
 
 main()
