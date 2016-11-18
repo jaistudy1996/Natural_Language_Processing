@@ -25,7 +25,7 @@ def main():
             if(ss["compound"] > 0):
                 value = 0
 
-            if(value == ss["compound"]):
+            if(value == row[0]):
                 match = "MATCH"
             else:
                 match = "fail"
