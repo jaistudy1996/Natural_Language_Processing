@@ -1,4 +1,4 @@
-# Authors: Jayant Arora, Marie Hilpl
+# Authors: Jayant Arora, Marie Hilpl, Robert Elliot
 # This file will have most of the nltk code
 
 import nltk, csv
