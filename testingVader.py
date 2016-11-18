@@ -12,8 +12,8 @@ def main():
         trueCount = 0
         falseCount = 0
         for row in test:
-            # if(counter>100):
-            #     break
+            if(counter>100):
+                break
             comment = row[2]
             #print(row[2])
             ss = sid.polarity_scores(comment)
@@ -23,7 +23,8 @@ def main():
             value = 0
             match = ""
             if(ss["compound"] < 0):
-                value = 1
+                if(ss["compound"] < -0.50):
+                    value = 1   
             if(ss["compound"] > 0):
                 value = 0
             table.add_row([int(row[0]) == value, int(row[0]), value, ss["compound"], ss["neg"], row[2][:100]])
