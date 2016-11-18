@@ -1,4 +1,4 @@
-import nltk, csv
+import nltk, csv, prettytable
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 
@@ -9,16 +9,15 @@ def main():
         sid = SIA()
         counter = 0
         for row in test:
-            if(counter>1):
+            if(counter>2):
                 break
             comment = row[2]
             print(row[2])
             ss = sid.polarity_scores(comment)
             for k in sorted(ss):
-                print('{0}: {1}, '.format(k, ss[k]), end='')
+                #print('{0}: {1}, '.format(k, ss[k]), end='')
+                print(k, ss[k])
             print("\n")
-            counter += 1
-            
+            counter += 1      
 
 main()
-
