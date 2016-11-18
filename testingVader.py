@@ -4,7 +4,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 
 def main():
     #Open file
-    table = prettytable.PrettyTable(field_names=["FLAG_Original", "Rounded Compund", "Compound", "Negative_value", "Sentence"])
+    table = prettytable.PrettyTable(field_names=["Match", "FLAG_Original", "Rounded Compund", "Compound", "Negative_value", "Sentence"])
     with open('train.csv', newline='') as csvfile:
         test = csv.reader(csvfile)
         sid = SIA()
@@ -19,11 +19,17 @@ def main():
                 # print('{0}: {1}, '.format(k, ss[k]), end='')
                 # print(k, ss[k])
             value = 0
+            match = ""
             if(ss["compound"] < 0):
                 value = 1
             if(ss["compound"] > 0):
                 value = 0
-            table.add_row([row[0], value, ss["compound"], ss["neg"], row[2][:100]])
+
+            if(value == ss["compound"]):
+                match = "MATCH"
+            else:
+                match = "fail"
+            table.add_row([match, row[0], value, ss["compound"], ss["neg"], row[2][:100]])
             #print("\n")
             counter += 1      
     print(table)
