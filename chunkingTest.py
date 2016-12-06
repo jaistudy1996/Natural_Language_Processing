@@ -23,7 +23,7 @@ def normalise(word):
 
 def main():
     #Open file
-    table = prettytable.PrettyTable(field_names=["Match", "FLAG_Original", "Rounded Compund", "Compound", "Negative_value", "Sentence"])
+    table = prettytable.PrettyTable(field_names=["Match", "FLAG_Original", "FLAG_Predicted", "Compound", "Negative_value", "Sentence"])
     with open('train.csv', newline='') as csvfile:
         test = csv.reader(csvfile)
         sid = SIA()
@@ -50,7 +50,7 @@ def main():
                     negComment = nltk.pos_tag(tokenizedComment)
 
                     #set pattern to check for pronouns
-                    pattern = "NP:{<PRP>}"
+                    pattern = "NP:{<PRP>|<PRP$>}"
                     NPChunker = nltk.RegexpParser(pattern)
 
                     result = NPChunker.parse(negComment)
