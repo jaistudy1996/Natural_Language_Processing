@@ -7,6 +7,20 @@ from nltk.chunk.util import *
 from nltk.chunk.regexp import *
 from nltk import Tree
 
+#leaves() get_terms() and normalize() have code from this site  http://alexbowe.com/au-naturale/
+def leaves(tree):
+    """Finds NP (nounphrase) leaf nodes of a chunk tree."""
+    for subtree in tree.subtrees(filter = lambda t: t.label()=='NP'):
+        yield subtree.leaves()
+def get_terms(tree):
+    for leaf in leaves(tree):
+        term = [ normalise(word) for word, tag in leaf]
+        yield term
+def normalise(word):
+    """Normalises words to lowercase """
+    word = word.lower()
+    return word
+
 def main():
     #Open file
     table = prettytable.PrettyTable(field_names=["Match", "FLAG_Original", "Rounded Compund", "Compound", "Negative_value", "Sentence"])
@@ -42,11 +56,18 @@ def main():
                     result = NPChunker.parse(negComment)
                     #print (result)
                     for n in result:
-                        if isinstance(n, nltk.tree.Tree):
-                            if n.label() == 'PRN':
-                                value = 1
-                            else:
-                                value = 0
+                        if (isinstance(n, nltk.tree.Tree)):
+                            #get list of pronouns (including tag)
+                            noun_phrase_words = get_terms(result)
+                            #flag comment if pronoun matches specific pronouns
+                            for term in noun_phrase_words:
+                                for word in term:
+                                    #print (word)
+                                    if(word == 'you' or word == 'your' or word == 'you\'re'):
+                                        value = 1
+                                        #print(word)
+                                    else:
+                                        value = 0
                     
             if(ss["compound"] > 0):
                 value = 0
