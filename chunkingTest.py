@@ -36,7 +36,7 @@ def main():
             comment = row[2]
 
             #Make comment all lower case
-            if (comment eq comment.uppercase())
+            if (comment == comment.upper()):
                 comment = comment.lower()
 
             ss = sid.polarity_scores(comment)
@@ -50,6 +50,7 @@ def main():
                     #check for username
                     if( re.match('@.*', comment)):
                         value = 1
+                        continue
                         
                     #Start noun-chunking (check for false positives)
                     
@@ -57,25 +58,30 @@ def main():
                     tokenizedComment = word_tokenize(comment)
                     negComment = nltk.pos_tag(tokenizedComment)
 
-                    #set pattern to check for pronouns
-                    pattern = "NP:{<PRP>|<PRP$>}"
-                    NPChunker = nltk.RegexpParser(pattern)
+                    for n in comment.split():
+                        if(n.lower() == "you"):# or n.lower() == "your" or n.lower() == "yourself"):
+                            value = 1
+                            #print("After: " + n)
 
-                    result = NPChunker.parse(negComment)
+                    #set pattern to check for pronouns
+                    #pattern = "NP:{<PRP>|<PRP$>}"
+                    #NPChunker = nltk.RegexpParser(pattern)
+
+                    #result = NPChunker.parse(negComment)
                     #print (result)
-                    for n in result:
-                        if (isinstance(n, nltk.tree.Tree)):
+                    #for n in result:
+                     #   if (isinstance(n, nltk.tree.Tree)):
                             #get list of pronouns (including tag)
-                            noun_phrase_words = get_terms(result)
+                      #      noun_phrase_words = get_terms(result)
                             #flag comment if pronoun matches specific pronouns
-                            for term in noun_phrase_words:
-                                for word in term:
-                                    #print (word)
-                                    if(word == 'you' or word == 'your' or word == 'you\'re'):
-                                        value = 1
-                                        #print(word)
-                                    else:
-                                        value = 0
+                       #     for term in noun_phrase_words:
+                        #        for word in term:
+                         #           print("Word Before: " + word)
+                          #          if(word == 'you' or word == 'your' or word == 'you\'re' or word == 'yourself'):
+                           #             value = 1
+                            #            print("Catch: " + word)
+                             #       else:
+                              #          value = 0
                         
                     
             if(ss["compound"] > 0):
