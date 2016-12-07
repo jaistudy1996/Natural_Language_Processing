@@ -1,4 +1,4 @@
-import nltk, csv, prettytable, math
+import nltk, csv, prettytable, math, re
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
 
@@ -31,9 +31,13 @@ def main():
         trueCount = 0
         falseCount = 0
         for row in test:
-            if(counter>100):
-                break
+            #if(counter>100):
+            #    break
             comment = row[2]
+
+            #Make comment all lower case
+            if (comment eq comment.uppercase())
+                comment = comment.lower()
 
             ss = sid.polarity_scores(comment)
             #for k in sorted(ss):
@@ -43,6 +47,10 @@ def main():
             match = ""
             if(ss["compound"] < 0):
                 if(ss["compound"] < -0.50):
+                    #check for username
+                    if( re.match('@.*', comment)):
+                        value = 1
+                        
                     #Start noun-chunking (check for false positives)
                     
                     #first tokenize comment and add POS tags
@@ -68,6 +76,7 @@ def main():
                                         #print(word)
                                     else:
                                         value = 0
+                        
                     
             if(ss["compound"] > 0):
                 value = 0
