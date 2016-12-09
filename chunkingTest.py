@@ -45,46 +45,45 @@ def main():
                 # print(k, ss[k])
             value = 0
             match = ""
-            if(ss["compound"] < 0):
-                if(ss["compound"] < -0.50):
-                    #check for username
-                    if( re.match('@.*', comment)):
+            if(ss["compound"] < -0.5):
+                #check for username
+                if( re.match('@.*', comment)):
+                    value = 1
+                    continue
+                        
+                #Start noun-chunking (check for false positives)
+                    
+                #first tokenize comment and add POS tags
+                tokenizedComment = word_tokenize(comment)
+                negComment = nltk.pos_tag(tokenizedComment)
+
+                for n in comment.split():
+                    if(n.lower() == "you" or n.lower() == "your" or n.lower() == "yourself" or n.lower() == "you're"):
                         value = 1
-                        continue
-                        
-                    #Start noun-chunking (check for false positives)
-                    
-                    #first tokenize comment and add POS tags
-                    tokenizedComment = word_tokenize(comment)
-                    negComment = nltk.pos_tag(tokenizedComment)
+                        #print("After: " + n)
 
-                    for n in comment.split():
-                        if(n.lower() == "you"):# or n.lower() == "your" or n.lower() == "yourself"):
-                            value = 1
-                            #print("After: " + n)
+                #set pattern to check for pronouns
+                #pattern = "NP:{<PRP>|<PRP$>}"
+                #NPChunker = nltk.RegexpParser(pattern)
 
-                    #set pattern to check for pronouns
-                    #pattern = "NP:{<PRP>|<PRP$>}"
-                    #NPChunker = nltk.RegexpParser(pattern)
-
-                    #result = NPChunker.parse(negComment)
-                    #print (result)
-                    #for n in result:
-                     #   if (isinstance(n, nltk.tree.Tree)):
-                            #get list of pronouns (including tag)
-                      #      noun_phrase_words = get_terms(result)
-                            #flag comment if pronoun matches specific pronouns
-                       #     for term in noun_phrase_words:
-                        #        for word in term:
-                         #           print("Word Before: " + word)
-                          #          if(word == 'you' or word == 'your' or word == 'you\'re' or word == 'yourself'):
-                           #             value = 1
-                            #            print("Catch: " + word)
-                             #       else:
-                              #          value = 0
+                #result = NPChunker.parse(negComment)
+                #print (result)
+                #for n in result:
+                 #   if (isinstance(n, nltk.tree.Tree)):
+                        #get list of pronouns (including tag)
+                    #      noun_phrase_words = get_terms(result)
+                        #flag comment if pronoun matches specific pronouns
+                  #     for term in noun_phrase_words:
+                    #        for word in term:
+                        #           print("Word Before: " + word)
+                        #          if(word == 'you' or word == 'your' or word == 'you\'re' or word == 'yourself'):
+                        #             value = 1
+                        #            print("Catch: " + word)
+                            #       else:
+                            #          value = 0
                         
                     
-            if(ss["compound"] > 0):
+            if(ss["compound"] > -0.5):
                 value = 0
                 
                 #Start noun-chunking (check false negitives)
