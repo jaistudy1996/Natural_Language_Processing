@@ -1,3 +1,5 @@
+# Authors: Jayant Arora, Marie Hilpl, Robert Elliot
+# main file for the project
 import nltk, csv, prettytable, math, re
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
